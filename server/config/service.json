@@ -1,0 +1,7 @@
+{
+    "demo": true
+  , "access_log": "log/access.log"
+  , "valid_ip": { "127.0.0.1":1 }
+  , "error_log": "log/error.log"
+}
+

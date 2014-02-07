@@ -1,13 +1,82 @@
-apaeser
-=======
+# apasser
 
 발음: '앞에서' => 외국인은 '아패서' 라고 읽었으면.. ㅋㅋ '패'에 엑센트~
 
-사용자 등수를 처리할 수 있는 빠르고 대용량 처리가능한 엔진 - 영작필요
-대용량 사용자들의 현재 등수 및 자신의 근처 사용자들을 실시간으로 업데이트 및 관리할 수 있는 엔진.
-현재 대략 1M의 사용자의 경우 실시간으로 사용자를 뽑아올 수 있으며,
-목표는 10,000tps를 처리할 수 있도록 수정 예정. - v1 finalize
+많은 사용자의 등수를 성적을 기준으로 실시간 처리할 수 있는 엔진
 
-다만, 10,000tps라도 경우 1M 사용자가 하루 100게임을 할 경우 정도 밖에 안되므로,
-분산처리 방법도 고민이 필요함. - v2
+Modified B+-Tree을 이용하여, 성적을 기준으로 수정시 실시간으로 개별 사용자의 등수를 관리할 수 있도록 한다. 등수 기준은 1차적으로 성적의 오름차순/내림차순을 기준으로 하고, 이차적으로 사용자 UniqueID(숫자 53bit), 또는 가입순 또는 최신 업데이트 순의 오름차순/내림차순으로 정할 수 있도록 한다.
+
+현재 테스트 결과로는 1,000,000사용자의 관리시 약 2,500tps정도 지원가능하며, Node.js를 이용하여 개발하였다.
+
+* [TODO] (#TODO)
+* [INSTALL] (#INSTALL)
+* [API] (#API)
+* [CHANGES] (#CHANGES)
+
+## TODO
+
+* Locking 업그레이드 - (최소한의 Locking 또는 MVCC)
+* 현재 profiling 결과로 array copy가 빈번하여, circular list를 이용한 array copy를 줄이는 방법 모색
+* Bulk Load
+* Backup/Restore 추가 (자체 파일의 Backup/Restore기능, Transaction Log를 이용한 복구)
+* Unused Node를 관리하여 Disk 증가량 조절
+* GUI data review console
+* 최종 목표: 1억 사용자가 1일 100게임을 해도 버틸 수 있는 구조
+
+## INSTALL
+
+After clone full package
+
+  npm install
+  node app.js
+
+and open web pages
+
+  http://{installed-server-ip}:17265/
+
+then open API test pages.
+
+## API
+
+* Get User Score 
+
+  http://127.0.0.1:17265/v1/user/test/{usn}
+
+* Update User Score 
+
+  POST http://127.0.0.1:17265/v1/user/test/{usn}
+
+need score={score} on request body
+
+* Delete User 
+
+  DELETE http://127.0.0.1:17265/v1/user/test/{usn}
+
+* Users around specfic users 
+
+  http://127.0.0.1/v1/around/test/{usn}?prior={number}&after={number}
+
+* Users between two ranks (exclude last one) 
+
+  http://127.0.0.1/v1/rankes/test?s={startRank}&e={endRank}
+
+* Get how many rankers between rank1 and rank2 
+
+  http://127.0.0.1/v1/nrankers/test?s={startRank}&e={endRank}
+
+* get rank of score 
+
+  http://127.0.0.1/v1/rank\_of/test/{score}
+
+* get Users which there score was below then - http://127.0.0.1/v1/usersFrom/test/{score}?limit={# of user}
+
+
+## CHANGES
+
+0.2.0 
+Array시 Disk 저장을 위하여 너무 많은 operation이 필요하여 구조를 최대한 Buffer에 byte를 이용하도록 수정
+
+0.1.0 
+Array를 이용한 수정된 B+-Tree를 이용한 최초 버젼
+
 

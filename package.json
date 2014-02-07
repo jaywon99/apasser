@@ -1,0 +1,36 @@
+{
+  "name": "apaeser",
+  "version": "0.1.0",
+  "description": "User Rank support based on Modified B+ Tree",
+  "main": "app.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "make test",
+    "start": "./scripts/init.sh start",
+    "stop": "./scripts/init.sh stop"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://jaywon99@github.com/jaywon99/apaeser.git"
+  },
+  "keywords": [
+    "B+Tree",
+    "Modified B+Tree",
+    "ELO"
+  ],
+  "author": [
+    "Jongpil Won",
+    "Lori Won"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "rwlock": "~4.0.0",
+    "lru-cache": "~2.5.0",
+    "express": "~3.4.8",
+    "winston": "~0.7.2",
+    "forever": "~0.10.11",
+    "async": "~0.2.10"
+  }
+}

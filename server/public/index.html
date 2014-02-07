@@ -1,0 +1,142 @@
+<html>
+<head>
+<style>
+body { font: 14px Tahoma, sans-serif; }
+#menus { padding: 8px 0px; position: relative; }
+#menus .select { width: 100%; }
+#params { }
+#params fieldset p { margin: 4px 0px; }
+#params fieldset label { width: 100px; display: inline-block; text-align: right; margin-right: 20px; }
+#params fieldset input { border: solid thin green; }
+#params fieldset button { margin-left: 120px; }
+#result { border: solid thin black; }
+</style>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type='text/javascript'>
+$(document).ready(function() {
+  var nav = $('#nav');
+  var selection = $('.select');
+  var select = selection.find('li');
+
+  $('.panel').hide();
+
+  $("select.select").on('change', function(evt) {
+    $('.panel').hide();
+    var selected = $("select.select option:selected");
+console.log(selected);
+    $('#'+selected.val()).show();
+    evt.preventDefault();
+  });
+
+  $('button').on('click', function(evt) {
+    evt.preventDefault();
+
+    var form = $(this).parents('form');
+    form.attr('action', form.data('action'));
+    form.find('input').each(function() {
+      if ($(this).data('concat') == '1') {
+        form.attr('action', form.attr('action')+$(this).val());
+      }
+    });
+    form.submit();
+    // console.log($(this).parent('div').find('input'));
+  });
+});
+</script>
+</head>
+<body>
+<div>
+현재 대략 1,000,000명의 자료가 들어있으며, USN은 1부터 1,000,000입니다. 편하게 테스트 하셔보시기 바랍니다.
+</div>
+<div id="menus">
+  <select name="choose_api" class='select'>
+    <option value="">Choose API</option>
+    <option value="user-get">Get User Rank</option>
+    <option value="user-update">Update Score</option>
+    <option value="user-delete">Delete User</option>
+    <option value="around">Users around specific user</option>
+    <option value="rankers">Rankers between rank {s} and rank {e}</option>
+    <option value="nrankers"># of Rankers between rank {s} and rank {e}</option>
+    <option value="rankof">Rank of score {score}</option>
+    <option value="usersfrom">Users below score {score}</option>
+  </select>
+</div>
+<div id='params'>
+  <div id='user-get' class='panel'>
+    <form data-action='/v1/user/test/' action='/v1/user/test/' method='get' target="json">
+      <fieldset><legend> GET /v1/user/test/:usn </legend>
+        <p><label for="usn">USN</label><input type="text" name="usn" value="" data-concat='1'/></p>
+        <p><button>Execute</button></p>
+      </fieldset>
+    </form>
+  </div>
+
+  <div id='user-update' class='panel'>
+    <form data-action='/v1/user/test/' action='/v1/user/test/' method='post' target="json">
+      <fieldset><legend>POST /v1/user/test/:usn?score=xxx </legend>
+        <p><label for="usn">USN</label><input type="text" name="usn" value="" data-concat='1'/></p>
+        <p><label for="score">SCORE</label><input type="text" name="score" value="" /></p>
+        <p><button>Execute</button></p>
+      </fieldset>
+    </form>
+  </div>
+
+  <div id='user-delete' class='panel'>
+    <form data-action='/v1/user/test/' action='/v1/user/test/' method='delete' target="json">
+      <fieldset><legend>DELETE /v1/user/test/:usn </legend>
+        <p><label for="usn">USN</label><input type="text" name="usn" value="" data-concat='1'/></p>
+        <p><button>Execute</button></p>
+      </fieldset>
+    </form>
+  </div>
+  <div id='around' class='panel'>
+    <form data-action='/v1/around/test/' action='/v1/around/test/' method='get' target="json">
+      <fieldset><legend>GET /v1/around/test/:usn?prior=5&amp;after=5 </legend>
+        <p><label for="usn">USN</label><input type="text" name="usn" value="" data-concat='1'/></p>
+        <p><label for="prior">PRIOR</label><input type="text" name="prior" value="" /></p>
+        <p><label for="after">AFTER</label><input type="text" name="after" value="" /></p>
+        <p><button>Execute</button></p>
+      </fieldset>
+    </form>
+  </div>
+  <div id='rankers' class='panel'>
+    <form data-action='/v1/rankers/test/' action='/v1/rankers/test/' method='get' target="json">
+      <fieldset><legend>GET /v1/rankers/test?s=5&amp;e=15 </legend>
+        <p><label for="s">s</label><input type="text" name="s" value="" /></p>
+        <p><label for="e">e</label><input type="text" name="e" value="" /></p>
+        <p><button>Execute</button></p>
+      </fieldset>
+    </form>
+  </div>
+  <div id='nrankers' class='panel'>
+    <form data-action='/v1/nrankers/test/' action='/v1/nrankers/test/' method='get' target="json">
+      <fieldset><legend>GET /v1/nrankers/test?s=5&amp;e=15 </legend>
+        <p><label for="s">s</label><input type="text" name="s" value="" /></p>
+        <p><label for="e">e</label><input type="text" name="e" value="" /></p>
+        <p><button>Execute</button></p>
+      </fieldset>
+    </form>
+  </div>
+  <div id='rankof' class='panel'>
+    <form data-action='/v1/rank_of/test/' action='/v1/rank_of/test/' method='get' target="json">
+      <fieldset><legend>GET /v1/rank_of/test/:score </legend>
+        <p><label for="score">SCORE</label><input type="text" name="score" value="" data-concat='1'/></p>
+        <p><button>Execute</button></p>
+      </fieldset>
+    </form>
+  </div>
+  <div id='usersfrom' class='panel'>
+    <form data-action='/v1/usersFrom/test/' action='/v1/usersFrom/test/' method='get' target="json">
+      <fieldset><legend>GET /v1/usersFrom/test/:score?limit=xxx </legend>
+        <p><label for="score">SCORE</label><input type="text" name="score" value="" data-concat='1'/></p>
+        <p><label for="limit">LIMIT</label><input type="text" name="limit" value="" /></p>
+        <p><button>Execute</button></p>
+      </fieldset>
+    </form>
+  </div>
+</div>
+<iframe src="about:blank" name="json" id="result">
+</iframe>
+</body>
+</html>
+
