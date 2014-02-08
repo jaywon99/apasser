@@ -63,8 +63,8 @@ console.log(selected);
 </div>
 <div id='params'>
   <div id='user-get' class='panel'>
-    <form data-action='/v1/user/test/' action='/v1/user/test/' method='get' target="json">
-      <fieldset><legend> GET /v1/user/test/:usn </legend>
+    <form data-action='/v1/user/sample/' action='/v1/user/sample/' method='get' target="json">
+      <fieldset><legend> GET /v1/user/{repo}/{usn} </legend>
         <p><label for="usn">USN</label><input type="text" name="usn" value="" data-concat='1'/></p>
         <p><button>Execute</button></p>
       </fieldset>
@@ -72,8 +72,8 @@ console.log(selected);
   </div>
 
   <div id='user-update' class='panel'>
-    <form data-action='/v1/user/test/' action='/v1/user/test/' method='post' target="json">
-      <fieldset><legend>POST /v1/user/test/:usn?score=xxx </legend>
+    <form data-action='/v1/user/sample/' action='/v1/user/sample/' method='post' target="json">
+      <fieldset><legend>POST /v1/user/{repo}/{usn}?score=xxx </legend>
         <p><label for="usn">USN</label><input type="text" name="usn" value="" data-concat='1'/></p>
         <p><label for="score">SCORE</label><input type="text" name="score" value="" /></p>
         <p><button>Execute</button></p>
@@ -82,16 +82,16 @@ console.log(selected);
   </div>
 
   <div id='user-delete' class='panel'>
-    <form data-action='/v1/user/test/' action='/v1/user/test/' method='delete' target="json">
-      <fieldset><legend>DELETE /v1/user/test/:usn </legend>
+    <form data-action='/v1/user/sample/' action='/v1/user/sample/' method='delete' target="json">
+      <fieldset><legend>DELETE /v1/user/{repo}/{usn} </legend>
         <p><label for="usn">USN</label><input type="text" name="usn" value="" data-concat='1'/></p>
         <p><button>Execute</button></p>
       </fieldset>
     </form>
   </div>
   <div id='around' class='panel'>
-    <form data-action='/v1/around/test/' action='/v1/around/test/' method='get' target="json">
-      <fieldset><legend>GET /v1/around/test/:usn?prior=5&amp;after=5 </legend>
+    <form data-action='/v1/around/sample/' action='/v1/around/sample/' method='get' target="json">
+      <fieldset><legend>GET /v1/around/{repo}/{usn}?prior=5&amp;after=5 </legend>
         <p><label for="usn">USN</label><input type="text" name="usn" value="" data-concat='1'/></p>
         <p><label for="prior">PRIOR</label><input type="text" name="prior" value="" /></p>
         <p><label for="after">AFTER</label><input type="text" name="after" value="" /></p>
@@ -100,8 +100,8 @@ console.log(selected);
     </form>
   </div>
   <div id='rankers' class='panel'>
-    <form data-action='/v1/rankers/test/' action='/v1/rankers/test/' method='get' target="json">
-      <fieldset><legend>GET /v1/rankers/test?s=5&amp;e=15 </legend>
+    <form data-action='/v1/rankers/sample/' action='/v1/rankers/sample/' method='get' target="json">
+      <fieldset><legend>GET /v1/rankers/{repo}?s=5&amp;e=15 </legend>
         <p><label for="s">s</label><input type="text" name="s" value="" /></p>
         <p><label for="e">e</label><input type="text" name="e" value="" /></p>
         <p><button>Execute</button></p>
@@ -109,8 +109,8 @@ console.log(selected);
     </form>
   </div>
   <div id='nrankers' class='panel'>
-    <form data-action='/v1/nrankers/test/' action='/v1/nrankers/test/' method='get' target="json">
-      <fieldset><legend>GET /v1/nrankers/test?s=5&amp;e=15 </legend>
+    <form data-action='/v1/nrankers/sample/' action='/v1/nrankers/sample/' method='get' target="json">
+      <fieldset><legend>GET /v1/nrankers/{repo}?s=5&amp;e=15 </legend>
         <p><label for="s">s</label><input type="text" name="s" value="" /></p>
         <p><label for="e">e</label><input type="text" name="e" value="" /></p>
         <p><button>Execute</button></p>
@@ -118,16 +118,16 @@ console.log(selected);
     </form>
   </div>
   <div id='rankof' class='panel'>
-    <form data-action='/v1/rank_of/test/' action='/v1/rank_of/test/' method='get' target="json">
-      <fieldset><legend>GET /v1/rank_of/test/:score </legend>
+    <form data-action='/v1/rank_of/sample/' action='/v1/rank_of/sample/' method='get' target="json">
+      <fieldset><legend>GET /v1/rank_of/{repo}/{score} </legend>
         <p><label for="score">SCORE</label><input type="text" name="score" value="" data-concat='1'/></p>
         <p><button>Execute</button></p>
       </fieldset>
     </form>
   </div>
   <div id='usersfrom' class='panel'>
-    <form data-action='/v1/usersFrom/test/' action='/v1/usersFrom/test/' method='get' target="json">
-      <fieldset><legend>GET /v1/usersFrom/test/:score?limit=xxx </legend>
+    <form data-action='/v1/usersFrom/sample/' action='/v1/usersFrom/sample/' method='get' target="json">
+      <fieldset><legend>GET /v1/usersFrom/{repo}/{score}?limit=xxx </legend>
         <p><label for="score">SCORE</label><input type="text" name="score" value="" data-concat='1'/></p>
         <p><label for="limit">LIMIT</label><input type="text" name="limit" value="" /></p>
         <p><button>Execute</button></p>

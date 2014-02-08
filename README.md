@@ -6,7 +6,7 @@
 
 Modified B+-Tree을 이용하여, 성적을 기준으로 수정시 실시간으로 개별 사용자의 등수를 관리할 수 있도록 한다. 등수 기준은 1차적으로 성적의 오름차순/내림차순을 기준으로 하고, 이차적으로 사용자 UniqueID(숫자 53bit), 또는 가입순 또는 최신 업데이트 순의 오름차순/내림차순으로 정할 수 있도록 한다.
 
-현재 테스트 결과로는 1,000,000사용자의 관리시 약 2,500tps정도 지원가능하며, Node.js를 이용하여 개발하였다.
+현재 테스트 결과로는 1,000,000사용자의 관리시 약 2,500tps정도 지원가능하며, Node.js를 이용하여 개발하였다. (SSD에서 테스트 결과 10M사용자시 1,500tps정도)
 
 * [TODO] (#TODO)
 * [INSTALL] (#INSTALL)
@@ -25,50 +25,43 @@ Modified B+-Tree을 이용하여, 성적을 기준으로 수정시 실시간으�
 
 ## INSTALL
 
-After clone full package
+* please check wiki page.
 
-  npm install
-  node app.js
-
-and open web pages
-
-  http://{installed-server-ip}:17265/
-
-then open API test pages.
-
-## API
+## API - please check demo pages.
 
 * Get User Score 
 
-  http://127.0.0.1:17265/v1/user/test/{usn}
+  http://127.0.0.1:17265/v1/user/sample/{usn}
 
 * Update User Score 
 
-  POST http://127.0.0.1:17265/v1/user/test/{usn}
+  POST http://127.0.0.1:17265/v1/user/sample/{usn}
 
 need score={score} on request body
 
 * Delete User 
 
-  DELETE http://127.0.0.1:17265/v1/user/test/{usn}
+  DELETE http://127.0.0.1:17265/v1/user/sample/{usn}
 
 * Users around specfic users 
 
-  http://127.0.0.1/v1/around/test/{usn}?prior={number}&after={number}
+  http://127.0.0.1/v1/around/sample/{usn}?prior={number}&after={number}
 
 * Users between two ranks (exclude last one) 
 
-  http://127.0.0.1/v1/rankes/test?s={startRank}&e={endRank}
+  http://127.0.0.1/v1/rankes/sample?s={startRank}&e={endRank}
 
 * Get how many rankers between rank1 and rank2 
 
-  http://127.0.0.1/v1/nrankers/test?s={startRank}&e={endRank}
+  http://127.0.0.1/v1/nrankers/sample?s={startRank}&e={endRank}
 
 * get rank of score 
 
-  http://127.0.0.1/v1/rank\_of/test/{score}
+  http://127.0.0.1/v1/rank\_of/sample/{score}
 
-* get Users which there score was below then - http://127.0.0.1/v1/usersFrom/test/{score}?limit={# of user}
+* get Users which there score was below then 
+
+  http://127.0.0.1/v1/usersFrom/sample/{score}?limit={#_of_user}
 
 
 ## CHANGES

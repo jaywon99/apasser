@@ -1,0 +1,9 @@
+{
+    "sort": ["desc", "asc"]
+  , "second_key": "updated_at" 
+  , "base": "/tmp/sample" 
+  , "block_size": 32768
+  , "cache_size": 1073741824
+  , "logger": {"path": "/dev/null"}
+}
+
