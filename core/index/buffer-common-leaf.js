@@ -180,23 +180,6 @@ CommonBPlusTreeLeaf.prototype._gather_to_low = function(cnts, buf, index, callba
   }
 };
 
-CommonBPlusTreeLeaf.prototype._gather_to_high = function(cnts, buf, index, callback) {
-  if (index < cnts) {
-    cnts -= (index+1);
-    buf.unshift(this.slice(0, index+1));
-    if (this.prev != 0) {
-      this.NodeFactory.get(this.prev, function(node) { 
-        setImmediate(function() { node._gather_to_high(cnts, buf, node.length-1, callback) });
-      });
-    } else {
-      callback.call(this, buf);
-    }
-  } else {
-    buf.unshift(this.slice(index-cnts+1, index+1));
-    callback.call(this, buf);
-  }
-};
-
 CommonBPlusTreeLeaf.prototype.to_buffer = function(max_limit) {
   var buffer = CommonBPlusTreeLeaf.super_.prototype.to_buffer.call(this, max_limit);
   BU.fromInt32LE(this.next, buffer, this.extra_pos);

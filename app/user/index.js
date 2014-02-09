@@ -2,9 +2,10 @@
 
 var BPlusTree = require('../../core/index/buffer-bptree')
   , RankBPlusTree = require('../../core/index/buffer-rbptree')
-  , async = require('async')
-  , ReadWriteLock = require('rwlock')
   , BU = require('../../core/util/buffer-util')
+  , fs = require('fs')
+  , ReadWriteLock = require('rwlock')
+  , async = require('async')
   ;
 
 exports = module.exports = UserIndex;
@@ -217,7 +218,7 @@ this.lock.readLock(function(release) {
 release();
       callback.call(self, err);
     } else {
-      self.ranking.around(self.rankingKey(kv), prior, after, function(myrank, prior, mine, after) {
+      self.ranking.around(self.rankingKey(kv), prior*1, after*1, function(myrank, prior, mine, after) {
         var scores = {}, item;
 
         var s = BU.toInt32LE(mine[0]);
@@ -327,7 +328,7 @@ release();
 UserIndex.prototype.usersFrom = function(score, limit, callback) {
   var self = this;
 this.lock.readLock(function(release) {
-  self.ranking.around(self.scoreKey(score), 0, limit, function(rank, prior, mine, after) {
+  self.ranking.around(self.scoreKey(score), 0, limit*1, function(rank, prior, mine, after) {
     var scores = {}, item;
 
     rank = Math.abs(rank);
@@ -361,14 +362,14 @@ this.lock.readLock(function(release) {
   async.parallel([
       function(cb) { 
         var uws = fs.createWriteStream(filename+".user.dmp");
-        this.users.dump(uws, function(err) {
+        self.users.dump(uws, function(err) {
           uws.close();
           cb(err);
         });
       }
     , function(cb) { 
-        var rws = fs.WriteteReadStream(filename+".rank.dmp");
-        this.ranking.dump(rws, function(err) {
+        var rws = fs.createWriteStream(filename+".rank.dmp");
+        self.ranking.dump(rws, function(err) {
           rws.close();
           cb(err);
         });
