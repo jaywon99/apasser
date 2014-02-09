@@ -70,6 +70,8 @@ FixedBufferNode.prototype.shift_and_push_to = function(dest) {
   this.buffer.copy(this.buffer, 0, this.kvsize, this.length*this.kvsize);
   this.length--;
   dest.length++;
+  this.dirty();
+  dest.dirty();
 };
 
 FixedBufferNode.prototype.pop_and_unshift_to = function(dest) {
@@ -77,10 +79,13 @@ FixedBufferNode.prototype.pop_and_unshift_to = function(dest) {
   this.buffer.copy(dest.buffer, 0, (this.length-1)*this.kvsize, this.length*this.kvsize);
   dest.length++;
   this.length -- ;
+  this.dirty();
+  dest.dirty();
 };
 
 FixedBufferNode.prototype.copyKey = function(s_index, d_node, d_index) {
   this.buffer.copy(d_node.buffer, d_index*d_node.kvsize, s_index*this.kvsize, s_index*this.kvsize+this.keysize);
+  d_node.dirty();
 };
 
 FixedBufferNode.prototype._slice = function(startP, endP) {
@@ -136,4 +141,22 @@ FixedBufferNode.prototype.from_buffer = function(buffer) {
   this.buffer = buffer; // XXX - for safety new Buffer(buffer); or buffer.copy(this.buffer, 0);
   this.length = BU.toInt32LE(this.buffer, this.end_of_kv);
 };
+
+function toHexString(buffer, start, end) {
+  var line = "";
+  for (var j=start; j<end; j++) {
+    if (buffer[j] < 16) line += "0"+buffer[j].toString(16) + " ";
+    else line += buffer[j].toString(16) + " ";
+  }
+	return line;
+}
+
+FixedBufferNode.prototype.debug = function() {
+  console.log("Node:", this._id, "Type:", this.isLeaf ? "Leaf" : "Branch");
+  console.log("Length:", this.length);
+  for (var i=0, j=0; i<this.length; i++, j+=this.kvsize) {
+		console.log(i+": "+toHexString(this.buffer, j, j+this.keysize) + " -> " + toHexString(this.buffer, j+this.keysize, j+this.kvsize));
+  };
+};
+
 
