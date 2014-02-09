@@ -40,13 +40,17 @@ CommonBPlusTreeLeaf.prototype.insert = function(index, key, data, ancestors) {
 
 CommonBPlusTreeLeaf.prototype.lateral = function(p, p_index, d, d_index) {
   if (p_index > d_index) {
-    d.push.apply(d, this.shift());
-    p.setKey(p_index, this.getKey(0));
+    // d.push.apply(d, this.shift());
+    this.shift_and_push_to(d);
+    // p.setKey(p_index, this.getKey(0));
+    this.copyKey(0, p, p_index);
     p.subCount(p_index, BU.PLUS1);
     p.addCount(d_index, BU.PLUS1);
   } else {
-    d.unshift.apply(d, this.pop());
-    p.setKey(d_index, d.getKey(0));
+    // d.unshift.apply(d, this.pop());
+    this.pop_and_unshift_to(d);
+    // p.setKey(d_index, d.getKey(0));
+    d.copyKey(0, p, d_index);
     p.addCount(p_index, BU.PLUS1);
     p.subCount(d_index, BU.PLUS1);
   }

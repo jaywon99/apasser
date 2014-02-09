@@ -62,7 +62,6 @@ NodeFactory.prototype.get = function(id, callback) {
 	var self = this;
 	var node = this.cache.get(id);
 	if (node === undefined) {
-// console.log("NOT IN CACHE", id);
 		var buf = new Buffer(this.block_size);
 		self.read(buf, 0, this.block_size, id * this.block_size, function(err, bytesRead, buffer) {
 			if (err) throw new Error(err);
@@ -73,10 +72,6 @@ NodeFactory.prototype.get = function(id, callback) {
 			callback.call(node, node);
 		});
 	} else {
-// console.log("YES IN CACHE", id);
-// if (id === 2) {
-// console.trace("YES IN CACHE", id);
-// }
 		callback.call(node, node);
 	}
 };
@@ -84,15 +79,12 @@ NodeFactory.prototype.get = function(id, callback) {
 NodeFactory.prototype.getSync = function(id) {
 	var node = this.cache.get(id);
 	if (node === undefined) {
-// console.log("NOT IN CACHE SYNC", id);
 		var buffer = new Buffer(this.block_size);
 		var bytesRead = this.readSync(buffer, 0, this.block_size, id * this.block_size);
 		if (bytesRead === 0) throw new Error("bytesRead === 0 at "+id);
 
 		node = this.NewNode(buffer, id);
 		this.cache.set(id, node);
-	} else {
-// console.log("YES IN CACHE SYNC", id);
 	}
 	return node;
 };
@@ -142,7 +134,7 @@ NodeFactory.prototype.NewNode = function(buffer, id) {
 
 NodeFactory.prototype.save = function(node) {
 	if (node._id === 0) {
-		console.trace("_id is 0!!!!!!!!!!!!!");
+		throw new Error("_id is 0!!!!!!!!!!!!!");
 	}
 	this.dirty_nodes[node._id] = node;
 };

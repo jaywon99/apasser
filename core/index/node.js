@@ -98,6 +98,18 @@ Node.prototype.shift = function() {
   return this._remove(0);
 };
 
+Node.prototype.shift_and_push_to = function(dest) {
+  dest.push.apply(dest, this.shift());
+};
+
+Node.prototype.pop_and_unshift_to = function(dest) {
+  dest.unshift.apply(dest, this.pop());
+};
+
+Node.prototype.copyKey = function(s_index, d_node, d_index) {
+  d_node.setKey(d_index, this.getKey(s_index));
+};
+
 Node.prototype.split = function(pos, into) {
   this._split(pos, into);
   this.dirty();

@@ -65,6 +65,24 @@ FixedBufferNode.prototype.__remove = function(pos) {
   return [key, value];
 };
 
+FixedBufferNode.prototype.shift_and_push_to = function(dest) {
+  this.buffer.copy(dest.buffer, dest.length*dest.kvsize, 0, this.kvsize);
+  this.buffer.copy(this.buffer, 0, this.kvsize, this.length*this.kvsize);
+  this.length--;
+  dest.length++;
+};
+
+FixedBufferNode.prototype.pop_and_unshift_to = function(dest) {
+  dest.buffer.copy(dest.buffer, dest.kvsize, 0, dest.length*dest.kvsize);
+  this.buffer.copy(dest.buffer, 0, (this.length-1)*this.kvsize, this.length*this.kvsize);
+  dest.length++;
+  this.length -- ;
+};
+
+FixedBufferNode.prototype.copyKey = function(s_index, d_node, d_index) {
+  this.buffer.copy(d_node.buffer, d_index*d_node.kvsize, s_index*this.kvsize, s_index*this.kvsize+this.keysize);
+};
+
 FixedBufferNode.prototype._slice = function(startP, endP) {
   // throw new Error("Need to define this");
   // pass handling info to user or ...

@@ -33,7 +33,6 @@ async.forever(function(callback) {
 	var n2 = Math.floor(Math.random()*10000000);
 	// var b1 = BU.fromInt32LE(n1);
 	// var b2 = BU.fromInt32LE(n2);
-	valid[n1] = n2;
 	u.upsert(n1, n2, function(err, uinfo) {
 		count++;
 		if (err !== undefined || uinfo === undefined || uinfo.usn !== n1) {

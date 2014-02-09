@@ -26,18 +26,30 @@ util.inherits(CommonBPlusTreeBranch, BufferNode);
 CommonBPlusTreeBranch.prototype.lateral = function(p, p_index, d, d_index) {
   if (p_index > d_index) {
     var cntbuf = this.getCount(0);
-    var firstkv = this.shift();
-    d.push(p.getKey(p_index), firstkv[1]);
-    p.setKey(p_index, this.getKey(0));
+    // var firstkv = this.shift();
+    // d.push(p.getKey(p_index), firstkv[1]);
+    this.shift_and_push_to(d);
+    // d.setKey(d.length-1, p.getKey(p_index));
+    p.copyKey(p_index, d, d.length-1);
+
+    // p.setKey(p_index, this.getKey(0));
+    this.copyKey(0, p, p_index);
 
     p.addCount(p_index, cntbuf);
     p.subCount(d_index, cntbuf);
   } else {
     var cntbuf = this.getCount(this.length-1);
-    var lastkv = this.pop();
-    d.setKey(0, p.getKey(d_index));
-    d.unshift(lastkv[0], lastkv[1]);
-    p.setKey(d_index, lastkv[0]);
+
+    // var lastkv = this.pop();
+    // d.setKey(0, p.getKey(d_index));
+    // d.unshift(lastkv[0], lastkv[1]);
+    // p.setKey(d_index, lastkv[0]);
+
+    // d.setKey(0, p.getKey(d_index));
+    p.copyKey(d_index, d, 0);
+    this.pop_and_unshift_to(d);
+    // p.setKey(d_index, d.getKey(0));
+    d.copyKey(0, p, d_index);
 
     p.subCount(p_index, cntbuf);
     p.addCount(d_index, cntbuf);
@@ -113,14 +125,16 @@ CommonBPlusTreeBranch.prototype.grow = function(ancestors) {
   }
 
   if (left_sib) {
-    this.setKey(0, p.getKey(p_index));
+    // this.setKey(0, p.getKey(p_index));
+    p.copyKey(p_index, this, 0);
     left_sib.merge(this);
     p.setCount(p_index-1, left_sib.countChildren());
     this.recycle(); // NO MORE USING this
     p._remove(p_index);
 
   } else {
-    right_sib.setKey(0, p.getKey(p_index+1));
+    // right_sib.setKey(0, p.getKey(p_index+1));
+    p.copyKey(p_index+1, right_sib, 0);
     this.merge(right_sib);
     p.setCount(p_index, this.countChildren());
     right_sib.recycle();
