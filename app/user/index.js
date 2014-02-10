@@ -82,8 +82,8 @@ exports.getRankingInfo = function(options) {
 function UserIndex(options) {
   this.keyinfo = exports.getRankingInfo(options);
 
-  this.users = new BPlusTree({keyhandler:exports.UserKeyHandler, valuehandler:exports.UserValueHandler, block_size:16384, path: (options.base === undefined || options.base === 'memory') ? options.base : options.base+'-user.bpt'});
-  this.ranking = new RankBPlusTree({keyhandler:this.keyinfo.keyhandler, valuehandler: {size: 8}, block_size: 16384, path: (options.base === undefined || options.base === 'memory') ? options.base : options.base+'-rank.rbpt'});
+  this.users = new BPlusTree({keyhandler:exports.UserKeyHandler, valuehandler:exports.UserValueHandler, block_size:options.block_size, cache_size: options.cache_size, path: (options.base === undefined || options.base === 'memory') ? options.base : options.base+'-user.bpt'});
+  this.ranking = new RankBPlusTree({keyhandler:this.keyinfo.keyhandler, valuehandler: {size: 8}, block_size: options.block_size, cache_size: options.cache_size, path: (options.base === undefined || options.base === 'memory') ? options.base : options.base+'-rank.rbpt'});
   // this.users = new BPlusTree({keyhandler:exports.UserKeyHandler, valuehandler:exports.UserValueHandler, block_size: 16384});
   // this.ranking = new RankBPlusTree({keyhandler:this.keyinfo.keyhandler, valuehandler: {size: 8}, block_size: 16384});
 
