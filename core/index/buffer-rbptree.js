@@ -131,6 +131,7 @@ RankBPlusTree.prototype.range = function(rank1, rank2, callback) {
 			    BU.subInt32LE(rbuf, current.getCount(i));
         }
       }
+      callback.call(this, []);
     } else {
       current._gather_to_low(cnts, [], BU.toInt32LE(rbuf), callback);
     }

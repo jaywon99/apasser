@@ -27,7 +27,7 @@ Modified B+-Tree을 이용하여, 성적을 기준으로 수정시 실시간으�
 
 * please check wiki page.
 
-## API - please check demo pages.
+## API - please check demo pages. (Check at Wiki)
 
 * Get User Score 
 
@@ -57,7 +57,7 @@ need score={score} on request body
 
 * get rank of score 
 
-  http://127.0.0.1/v1/rank\_of/sample/{score}
+  http://127.0.0.1/v1/rank_of/sample/{score}
 
 * get Users which there score was below then 
 
